@@ -1,19 +1,23 @@
-const fs = require('fs').promises;
-const path = require('node:path');
-const { nanoid } = require('nanoid');
-const { error } = require('console');
+// const fs = require('fs').promises;
+// const path = require('node:path');
+// const { nanoid } = require('nanoid');
+// const { error } = require('console');
+const { Contact } = require('../models/schemas');
 
 const contactsPath = path.join(__dirname, 'contacts.json');
 
-const updateContacts = async contacts =>
-  await fs.writeFile(
-    contactsPath,
-    JSON.stringify(contacts, null, 2)
-  );
+// const updateContacts = async contacts =>
+//   await fs.writeFile(
+//     contactsPath,
+//     JSON.stringify(contacts, null, 2)
+//   );
 
-const listContacts = async () => {
-  const result = await fs.readFile(contactsPath);
-  return JSON.parse(result);
+const listContacts = async (req, res) => {
+  const result = await Contact.find(
+    {},
+    '-createdAt -updatedAt'
+  );
+  res.json(result);
 };
 
 const getContactById = async id => {

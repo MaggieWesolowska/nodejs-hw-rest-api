@@ -14,7 +14,7 @@ router.get('/', ctrlWrapper(ctrl.listContacts));
 
 router.get(
   '/:contactId',
-  isValidId,
+  validateId,
   ctrlWrapper(ctrl.getContactById)
 );
 
