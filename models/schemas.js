@@ -1,11 +1,11 @@
 const Joi = require('joi');
-const { model, default: mongoose } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const {
   handleSaveErrors,
 } = require('../helpers/handleSaveErrors');
 
-const contactSchema = mongoose.model(
+const contactSchema = new Schema(
   {
     name: {
       type: String,
