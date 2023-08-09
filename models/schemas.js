@@ -10,7 +10,7 @@ const contactSchema = new Schema(
     name: {
       type: String,
       minLength: 2,
-      maxLength: 100,
+      maxLength: 70,
       required: [true, 'Name is required'],
     },
     email: {

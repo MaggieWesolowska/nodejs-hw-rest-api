@@ -3,6 +3,12 @@ const mongoose = require('mongoose');
 
 const { DB_HOST, PORT } = process.env;
 
+mongoose.connect(process.env.DB_HOST, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
+
 mongoose
   .connect(DB_HOST)
   .then(() => {
