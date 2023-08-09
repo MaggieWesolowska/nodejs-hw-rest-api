@@ -1,8 +1,6 @@
 const express = require('express');
 const { ctrl } = require('../../controllers/contacts');
-const {
-  ctrlWrapper,
-} = require('../../helpers/ctrlWrapper');
+const { ctrlTask } = require('../../helpers/ctrlTask');
 const {
   validateBody,
   validateId,
@@ -10,38 +8,38 @@ const {
 const { Schemas } = require('../../models/schemas');
 const router = express.Router();
 
-router.get('/', ctrlWrapper(ctrl.listContacts));
+router.get('/', ctrlTask(ctrl.listContacts));
 
 router.get(
   '/:contactId',
   validateId,
-  ctrlWrapper(ctrl.getContactById)
+  ctrlTask(ctrl.getContactById)
 );
 
 router.post(
   '/',
   validateBody(Schemas.schema),
-  ctrlWrapper(ctrl.addContact)
+  ctrlTask(ctrl.addContact)
 );
 
 router.delete(
   '/:contactId',
   validateId,
-  ctrlWrapper(ctrl.removeContact)
+  ctrlTask(ctrl.removeContact)
 );
 
 router.put(
   '/:contactId',
   validateId,
   validateBody(Schemas.schema),
-  ctrlWrapper(ctrl.updateContact)
+  ctrlTask(ctrl.updateContact)
 );
 
 router.patch(
   '/:contactId/favorite',
   validateId,
   validateBody(Schemas.updateFavoriteSchema),
-  ctrlWrapper(ctrl.updateFavorite)
+  ctrlTask(ctrl.updateFavorite)
 );
 
 // Old code:
