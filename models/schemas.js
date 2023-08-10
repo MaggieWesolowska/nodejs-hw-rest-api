@@ -1,5 +1,4 @@
 const Joi = require('joi');
-// const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose');
 
 const contact = new Schema(
@@ -27,17 +26,17 @@ const schema = Joi.object({
     'string.base': `"name" should be a type of 'string'`,
     'any.required': `"name" is a required field`,
   }),
-  phone: Joi.string().required().messages({
+  phone: Joi.string().messages({
     'string.base': `"phone" should be a type of 'string'`,
   }),
-  email: Joi.string().email().required().messages({
+  email: Joi.string().email().messages({
     'string.base': `"email" should be a type of 'string'`,
   }),
   favorite: Joi.boolean(),
 });
 
 const updateFavoriteSchema = Joi.object({
-  favorite: Joi.boolean().required(),
+  favorite: Joi.boolean(),
 });
 
 const Schemas = {
