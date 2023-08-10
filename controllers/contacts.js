@@ -1,18 +1,17 @@
 const { Contact } = require('../models/schemas');
 const requestError = require('../helpers/requestError');
-const mongoose = require('mongoose');
 
 const listContacts = async (req, res) => {
   const result = await Contact.find(
     {},
     '-createdAt -updatedAt'
   );
-  res.json(result);
+  res.status(200).json(result);
 };
 
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
-  const result = await Contact.findById(contactId);
+  const result = await Contact.findOne(contactId);
   if (!result) {
     throw requestError(404, 'Not found');
   }
