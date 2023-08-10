@@ -50,7 +50,7 @@ const Schemas = {
   updateFavoriteSchema,
 };
 
-const Contact = model('contacts', contactSchema);
+const Contact = model('contact', contactSchema);
 
 module.exports = {
   Schemas,

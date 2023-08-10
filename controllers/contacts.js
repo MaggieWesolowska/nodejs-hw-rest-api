@@ -3,7 +3,6 @@ const requestError = require('../helpers/requestError');
 const mongoose = require('mongoose');
 
 const listContacts = async (req, res) => {
-  console.log(mongoose.connection.db.collections());
   const result = await Contact.find(
     {},
     '-createdAt -updatedAt'
