@@ -1,70 +1,50 @@
+const express = require('express');
 const {
   listContacts,
   getContactById,
   addContact,
   removeContact,
   updateContact,
-} = require('../../models/contacts.js');
-const express = require('express');
-
+  updateFavorite,
+} = require('../../controllers/contacts');
+const ctrlTask = require('../../helpers/ctrlTask');
+const validateBody = require('../../middleware/validateBody');
+const validateId = require('../../middleware/validateId');
+const { Schemas } = require('../../models/schemas');
 const router = express.Router();
 
-const schema = require('../../models/contacts-schema.js');
+router.get('/', ctrlTask(listContacts));
 
-router.get('/', async (req, res) => {
-  const result = await listContacts();
-  res.status(200).json(result);
-});
+router.get(
+  '/:contactId',
+  validateId,
+  ctrlTask(getContactById)
+);
 
-router.get('/:contactId', async (req, res) => {
-  const result = await getContactById(req.params.contactId);
-  if (!result) {
-    res.status(404).json({ message: 'Contact not found' });
-  }
-  res.status(200).json(result);
-});
+router.post(
+  '/',
+  validateBody(Schemas.schema),
+  ctrlTask(addContact)
+);
 
-router.post('/', async (req, res) => {
-  const validate = schema.validate(req.body);
-  if (validate.error) {
-    res
-      .status(400)
-      .json({ message: validate.error.message });
-  } else {
-    const result = await addContact(req.body);
-    res.status(201).json(result);
-  }
-});
+router.delete(
+  '/:contactId',
+  validateId,
+  ctrlTask(removeContact)
+);
 
-router.delete('/:contactId', async (req, res) => {
-  const deleteContact = await removeContact(
-    req.params.contactId
-  );
-  if (!deleteContact) {
-    res.status(404).json({ message: 'Contact not found' });
-  }
-  res.status(200).json({ message: 'Contact deleted' });
-});
+router.put(
+  '/:contactId',
+  validateId,
+  validateBody(Schemas.schema),
+  ctrlTask(updateContact)
+);
 
-router.put('/:contactId', async (req, res) => {
-  const validate = schema.validate(req.body);
-  if (validate.error) {
-    res
-      .status(400)
-      .json({ message: validate.error.message });
-  } else {
-    const result = await updateContact(
-      req.params.contactId,
-      req.body
-    );
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res
-        .status(404)
-        .json({ message: 'Contact not found' });
-    }
-  }
-});
+router.patch(
+  '/:contactId/favorite',
+  validateId,
+  validateBody(Schemas.updateFavoriteSchema),
+  ctrlTask(updateFavorite)
+);
 
 module.exports = router;
