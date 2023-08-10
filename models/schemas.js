@@ -1,7 +1,8 @@
 const Joi = require('joi');
+const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose');
 
-const contactSchema = new Schema(
+const contact = new Schema(
   {
     name: {
       type: String,
@@ -50,7 +51,7 @@ const Schemas = {
   updateFavoriteSchema,
 };
 
-const Contact = model('contact', contactSchema);
+const Contact = model('contact', contact);
 
 module.exports = {
   Schemas,
