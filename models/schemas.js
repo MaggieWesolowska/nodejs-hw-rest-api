@@ -1,22 +1,18 @@
 const Joi = require('joi');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose');
 
 const contact = new Schema(
   {
     name: {
       type: String,
-      minLength: 2,
-      maxLength: 70,
       required: [true, 'Name is required'],
     },
     email: {
       type: String,
-      required: true,
     },
     phone: {
       type: String,
-      required: true,
     },
     favorite: {
       type: Boolean,
@@ -33,11 +29,9 @@ const schema = Joi.object({
   }),
   phone: Joi.string().required().messages({
     'string.base': `"phone" should be a type of 'string'`,
-    'any.required': `"phone" is a required field`,
   }),
   email: Joi.string().email().required().messages({
     'string.base': `"email" should be a type of 'string'`,
-    'any.required': `"email" is a required field`,
   }),
   favorite: Joi.boolean(),
 });
@@ -51,7 +45,7 @@ const Schemas = {
   updateFavoriteSchema,
 };
 
-const Contact = model('contact', contact);
+const Contact = model('contact', contact, 'contacts');
 
 module.exports = {
   Schemas,
