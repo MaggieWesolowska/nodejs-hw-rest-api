@@ -9,22 +9,6 @@ const listContacts = async (req, res) => {
   res.status(200).json(result);
 };
 
-// const listContacts = async (req, res, next) => {
-//   try {
-//     const results = await Contact.find();
-//     res.json({
-//       status: 'success',
-//       code: 200,
-//       data: {
-//         tasks: results,
-//       },
-//     });
-//   } catch (e) {
-//     console.error(e);
-//     next(e);
-//   }
-// };
-
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
   const result = await Contact.findById(contactId);
@@ -33,30 +17,6 @@ const getContactById = async (req, res) => {
   }
   res.status(200).json(result);
 };
-
-// const getContactById = async (req, res, next) => {
-//   const { id } = req.params;
-//   try {
-//     const result = await Contact.findbyId(contactId);
-//     if (result) {
-//       res.json({
-//         status: 'success',
-//         code: 200,
-//         data: { task: result },
-//       });
-//     } else {
-//       res.status(404).json({
-//         status: 'error',
-//         code: 404,
-//         message: `Not found contact id: ${id}`,
-//         data: 'Not Found',
-//       });
-//     }
-//   } catch (e) {
-//     console.error(e);
-//     next(e);
-//   }
-// };
 
 const addContact = async (req, res) => {
   const result = await Contact.create(req.body);
@@ -101,7 +61,7 @@ const updateFavorite = async (req, res) => {
   res.status(200).json(result);
 };
 
-const ctrl = {
+module.exports = {
   listContacts,
   getContactById,
   addContact,
@@ -109,7 +69,6 @@ const ctrl = {
   updateContact,
   updateFavorite,
 };
-module.exports = ctrl;
 
 // const fs = require('fs').promises;
 // const path = require('node:path');
