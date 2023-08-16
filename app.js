@@ -19,6 +19,9 @@ require('./config/config-passport');
 
 app.use('/api/contacts', contactsRouter);
 app.use('/api/users', usersRouter);
+app.use('/users/login', usersRouter);
+app.use('/users/register', usersRouter);
+app.use('/users/logout', contactsRouter);
 
 app.use((_, res, __) => {
   res.status(404).json({
