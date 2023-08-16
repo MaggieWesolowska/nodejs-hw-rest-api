@@ -86,9 +86,7 @@ router.post('/users/signup', async (req, res, next) => {
 //TODO:
 router.post('/users/logout', (req, res, next) => {});
 
-router.get('/users/current', (req, res, next) => {});
-
-router.get('/users', auth, (req, res, next) => {
+router.get('/users/current', auth, (req, res, next) => {
   const { username } = req.user;
   res.json({
     status: 'success',
