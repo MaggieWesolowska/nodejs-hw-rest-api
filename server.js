@@ -1,6 +1,7 @@
 const app = require('./app');
 const mongoose = require('mongoose');
 require('dotenv').config();
+mongoose.Promise = global.Promise;
 
 const PORT = process.env.PORT || 3000;
 const uriDb = process.env.DB_HOST;
