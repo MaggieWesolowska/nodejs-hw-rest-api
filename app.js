@@ -19,20 +19,12 @@ require('./config/config-passport');
 
 app.use('/api/contacts', contactsRouter);
 app.use('/api/users', usersRouter);
-// app.use('/users/login', usersRouter);
-// app.use('/users/register', usersRouter);
-// app.use('/users/logout', contactsRouter);
 
 app.use((_, res, __) => {
   res.status(404).json({
     status: 'error',
     code: 404,
-    message: `Use api on routes:
-    users/signup - registration user {
-      username, email, password
-    }
-    users/login - login {email, password}
-    users/current - get message if user is authenticated`,
+    message: 'You need to use /api route!',
     data: 'Not found',
   });
 });
