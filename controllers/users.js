@@ -1,7 +1,7 @@
-// const express = require('express');
+const express = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const User = require('../models/user');
+const { User } = require('../models/user');
 require('dotenv').config();
 
 const secret = process.env.SECRET;
