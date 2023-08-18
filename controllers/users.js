@@ -88,12 +88,12 @@ const logout = (req, res, next) => {};
 const current =
   (auth,
   (req, res, next) => {
-    const { username } = req.user;
+    const { email } = req.user;
     res.json({
       status: 'success',
       code: 200,
       data: {
-        message: `Authorization was successful: ${username}`,
+        message: `Authorization was successful: ${email}`,
       },
     });
   });
