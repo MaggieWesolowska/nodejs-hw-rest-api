@@ -1,7 +1,7 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const { User } = require('../models/user');
+const User = require('../models/user');
+
 require('dotenv').config();
 
 const secret = process.env.SECRET;
@@ -20,13 +20,14 @@ const auth = (req, res, next) => {
         });
       }
       req.user = user;
+      // user.subscription.includes('starter');
       next();
     }
   )(req, res, next);
 };
 
 const signup = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     return res.status(409).json({
@@ -37,7 +38,7 @@ const signup = async (req, res, next) => {
     });
   }
   try {
-    const newUser = new User({ username, email });
+    const newUser = new User({ email });
     newUser.setPassword(password);
     await newUser.save();
     res.status(201).json({
