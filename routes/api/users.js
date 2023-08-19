@@ -9,10 +9,6 @@ router.post(
   authController.auth,
   authController.logout
 );
-router.post(
-  '/current',
-  authController.auth,
-  authController.current
-);
+router.post('/current', authController.current);
 
 module.exports = router;

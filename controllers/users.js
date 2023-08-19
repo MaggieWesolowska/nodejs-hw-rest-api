@@ -61,7 +61,7 @@ const login = async (req, res, next) => {
     return res.status(400).json({
       status: 'error',
       code: 400,
-      message: 'Incorrect login or password',
+      message: 'Incorrect email or password',
       data: 'Bad request',
     });
   }
@@ -79,6 +79,10 @@ const login = async (req, res, next) => {
     code: 200,
     data: {
       token,
+      // user: {
+      //   email: req.user.email,
+      //   subscription: req.user.subscription,
+      // },
     },
   });
 };
@@ -95,16 +99,22 @@ const logout = async (req, res, next) => {
   }
 };
 
-const current = (req, res, next) => {
-  const { email } = req.user;
-  res.json({
-    status: 'success',
-    code: 200,
-    data: {
-      message: `Authorization was successful: ${email}`,
-    },
+const current =
+  (auth,
+  (req, res, next) => {
+    try {
+      res.json({
+        status: 'success',
+        code: 200,
+        data: {
+          email: req.user.email,
+          subscription: req.user.subscription,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
   });
-};
 
 module.exports = {
   auth,
