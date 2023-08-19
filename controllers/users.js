@@ -26,6 +26,18 @@ const auth = (req, res, next) => {
   )(req, res, next);
 };
 
+const listUsers = async (req, res) => {
+  try {
+    const result = await User.find(
+      {},
+      '-createdAt -updatedAt'
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const signup = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -46,6 +58,10 @@ const signup = async (req, res, next) => {
       code: 201,
       data: {
         message: 'Registration successful',
+        user: {
+          email: req.user.email,
+          subscription: req.user.subscription,
+        },
       },
     });
   } catch (error) {
@@ -116,6 +132,7 @@ const current = (req, res, next) => {
 };
 
 module.exports = {
+  listUsers,
   auth,
   signup,
   login,
