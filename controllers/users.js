@@ -79,10 +79,10 @@ const login = async (req, res, next) => {
     code: 200,
     data: {
       token,
-      // user: {
-      //   email: req.user.email,
-      //   subscription: req.user.subscription,
-      // },
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+      },
     },
   });
 };
