@@ -31,7 +31,7 @@ const signup = async (req, res, next) => {
   const user = await User.findOne({ email });
   if (user) {
     return res.status(409).json({
-      status: 'error',
+      status: 'Error',
       code: 409,
       message: 'Email is already in use',
       data: 'Conflict',
@@ -42,7 +42,7 @@ const signup = async (req, res, next) => {
     newUser.setPassword(password);
     await newUser.save();
     res.status(201).json({
-      status: 'success',
+      status: 'Success',
       code: 201,
       data: {
         message: 'Registration successful',
@@ -59,7 +59,7 @@ const login = async (req, res, next) => {
 
   if (!user || !user.validPassword(password)) {
     return res.status(400).json({
-      status: 'error',
+      status: 'Error',
       code: 400,
       message: 'Incorrect email or password',
       data: 'Bad request',
@@ -75,7 +75,7 @@ const login = async (req, res, next) => {
     expiresIn: '1h',
   });
   res.json({
-    status: 'success',
+    status: 'Success',
     code: 200,
     data: {
       token,
@@ -99,22 +99,20 @@ const logout = async (req, res, next) => {
   }
 };
 
-const current =
-  (auth,
-  (req, res, next) => {
-    try {
-      res.json({
-        status: 'success',
-        code: 200,
-        data: {
-          email: req.user.email,
-          subscription: req.user.subscription,
-        },
-      });
-    } catch (error) {
-      next(error);
-    }
-  });
+const current = (req, res, next) => {
+  try {
+    res.json({
+      status: 'Success',
+      code: 200,
+      data: {
+        email: req.user.email,
+        subscription: req.user.subscription,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   auth,
