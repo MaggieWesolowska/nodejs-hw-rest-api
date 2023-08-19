@@ -88,11 +88,12 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-  const user = await user.findOneAndUpdate(
-    { _id: id },
-    { token: null }
-  );
+  const { id } = req.body;
   try {
+    await User.findOneAndUpdate(
+      { _id: id },
+      { token: null }
+    );
     res.status(204).end();
   } catch (error) {
     next(error);
