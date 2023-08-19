@@ -83,22 +83,31 @@ const login = async (req, res, next) => {
   });
 };
 
-const logout = (req, res, next) => {};
+const logout = async (req, res, next) => {
+  const user = await user.findOneAndUpdate(
+    { _id: id },
+    { token: null }
+  );
+  try {
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
 
-const current =
-  (auth,
-  (req, res, next) => {
-    const { email } = req.user;
-    res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        message: `Authorization was successful: ${email}`,
-      },
-    });
+const current = (req, res, next) => {
+  const { email } = req.user;
+  res.json({
+    status: 'success',
+    code: 200,
+    data: {
+      message: `Authorization was successful: ${email}`,
+    },
   });
+};
 
 module.exports = {
+  auth,
   signup,
   login,
   logout,
