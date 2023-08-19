@@ -20,7 +20,6 @@ const auth = (req, res, next) => {
         });
       }
       req.user = user;
-      // user.subscription.includes('starter');
       next();
     }
   )(req, res, next);
@@ -28,10 +27,7 @@ const auth = (req, res, next) => {
 
 const listUsers = async (req, res) => {
   try {
-    const result = await User.find(
-      {},
-      '-createdAt -updatedAt'
-    );
+    const result = await User.find();
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -59,8 +55,8 @@ const signup = async (req, res, next) => {
       data: {
         message: 'Registration successful',
         user: {
-          email: req.user.email,
-          subscription: req.user.subscription,
+          email: req.body.email,
+          subscription: 'starter',
         },
       },
     });
@@ -81,26 +77,29 @@ const login = async (req, res, next) => {
       data: 'Bad request',
     });
   }
+  try {
+    const payload = {
+      id: user.id,
+      username: user.username,
+    };
 
-  const payload = {
-    id: user.id,
-    username: user.username,
-  };
-
-  const token = jwt.sign(payload, secret, {
-    expiresIn: '1h',
-  });
-  res.json({
-    status: 'Success',
-    code: 200,
-    data: {
-      token,
-      user: {
-        email: user.email,
-        subscription: user.subscription,
+    const token = jwt.sign(payload, secret, {
+      expiresIn: '1h',
+    });
+    res.json({
+      status: 'Success',
+      code: 200,
+      data: {
+        token,
+        user: {
+          email: user.email,
+          subscription: user.subscription,
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const logout = async (req, res, next) => {
