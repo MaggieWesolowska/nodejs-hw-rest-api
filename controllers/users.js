@@ -48,15 +48,15 @@ const signup = async (req, res, next) => {
   try {
     const newUser = new User({ email });
     newUser.setPassword(password);
-    await newUser.save();
+    const result = await newUser.save();
     res.status(201).json({
       status: 'Success',
       code: 201,
       data: {
         message: 'Registration successful',
         user: {
-          email: req.body.email,
-          subscription: 'starter',
+          email: result.email,
+          subscription: result.subscription,
         },
       },
     });
@@ -68,7 +68,6 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-
   if (!user || !user.validPassword(password)) {
     return res.status(400).json({
       status: 'Error',
