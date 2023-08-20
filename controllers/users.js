@@ -78,8 +78,8 @@ const login = async (req, res, next) => {
   }
   try {
     const payload = {
-      id: user.id,
-      username: user.username,
+      id: user._id,
+      email: user.email,
     };
 
     const token = jwt.sign(payload, secret, {
