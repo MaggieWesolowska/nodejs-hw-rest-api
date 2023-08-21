@@ -3,10 +3,15 @@ const requestError = require('../helpers/requestError');
 
 const listContacts = async (req, res) => {
   try {
-    const result = await Contact.find(
-      {},
-      '-createdAt -updatedAt'
-    );
+    const { favorite } = req.query;
+    if (favorite === 'true' || favorite === 'false') {
+      result = await Contact.find({ favorite: favorite });
+    } else {
+      result = await Contact.find(
+        {},
+        '-createdAt -updatedAt'
+      );
+    }
     res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
