@@ -129,6 +129,22 @@ const current = (req, res, next) => {
   }
 };
 
+const updateSub = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { subscription } = req.body;
+    const result = await User.findById(userId);
+    if (!result) {
+      throw requestError(404, 'Not found');
+    }
+    result.subscription = subscription;
+    await result.save();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   listUsers,
   auth,
@@ -136,4 +152,5 @@ module.exports = {
   login,
   logout,
   current,
+  updateSub,
 };

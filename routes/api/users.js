@@ -16,4 +16,9 @@ router.get(
   authController.current
 );
 
+router.patch(
+  '/:userId/subscription',
+  authController.updateSub
+);
+
 module.exports = router;

@@ -6,6 +6,7 @@ const {
   removeContact,
   updateContact,
   updateFavorite,
+  getByFavorite,
 } = require('../../controllers/contacts');
 const ctrlTask = require('../../helpers/ctrlTask');
 const validateBody = require('../../middleware/validateBody');
