@@ -18,6 +18,7 @@ router.get(
 
 router.patch(
   '/:userId/subscription',
+  authController.auth,
   authController.updateSub
 );
 
