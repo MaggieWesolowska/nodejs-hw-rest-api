@@ -11,7 +11,12 @@ const auth = (req, res, next) => {
     'jwt',
     { session: false },
     (err, user) => {
-      if (!user || err) {
+      const token = req
+        .get('Authorization')
+        .replace('Bearer ', '');
+      console.log(token);
+      console.log(user);
+      if (!user || err || !token || token !== user.token) {
         return res.status(401).json({
           status: 'error',
           code: 401,
@@ -85,6 +90,10 @@ const login = async (req, res, next) => {
     const token = jwt.sign(payload, secret, {
       expiresIn: '1h',
     });
+    await User.findByIdAndUpdate(
+      { _id: user._id },
+      { token }
+    );
     res.json({
       status: 'Success',
       code: 200,
@@ -102,10 +111,10 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res, next) => {
-  const { id } = req.body;
+  const { _id } = req.user;
   try {
     await User.findOneAndUpdate(
-      { _id: id },
+      { _id: _id },
       { token: null }
     );
     res.status(204).end();
