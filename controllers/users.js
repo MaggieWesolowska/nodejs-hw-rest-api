@@ -138,11 +138,15 @@ const current = (req, res, next) => {
   }
 };
 
+//PATH: users/{_id}/subscription
+
 const updateSub = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const { _id } = req.user;
     const { subscription } = req.body;
-    const result = await User.findById(userId);
+    const result = await User.findByIdAndUpdate({
+      _id: _id,
+    });
     if (!result) {
       throw requestError(404, 'Not found');
     }
