@@ -1,34 +1,9 @@
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const User = require('../models/user');
 
 require('dotenv').config();
 
 const secret = process.env.SECRET;
-
-const auth = (req, res, next) => {
-  passport.authenticate(
-    'jwt',
-    { session: false },
-    (err, user) => {
-      const token = req
-        .get('Authorization')
-        .replace('Bearer ', '');
-      console.log(token);
-      console.log(user);
-      if (!user || err || !token || token !== user.token) {
-        return res.status(401).json({
-          status: 'error',
-          code: 401,
-          message: 'Unauthorized',
-          data: 'Unauthorized',
-        });
-      }
-      req.user = user;
-      next();
-    }
-  )(req, res, next);
-};
 
 const listUsers = async (req, res) => {
   try {
@@ -160,7 +135,6 @@ const updateSub = async (req, res, next) => {
 
 module.exports = {
   listUsers,
-  auth,
   signup,
   login,
   logout,
