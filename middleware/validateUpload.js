@@ -1,4 +1,4 @@
-const upload = require('../../config/config-multer.js');
+const upload = require('../config/config-multer');
 
 const validateUpload = upload.single('picture');
 
