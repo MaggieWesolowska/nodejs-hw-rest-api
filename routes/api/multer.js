@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../../config/config-multer.js');
+const validateUpload = require('../../middleware/validateUpload');
 const uploadAvatar = require('../../controllers/multer');
 
-router.post(
-  '/upload',
-  (upload.single('picture'), uploadAvatar)
-);
+router.post('/upload', validateUpload, uploadAvatar);
 
 module.exports = router;
