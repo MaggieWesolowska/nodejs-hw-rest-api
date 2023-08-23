@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const contactsRouter = require('./routes/api/contacts');
 const usersRouter = require('./routes/api/users');
+// const multerRouter = require('./routes/api/multer');
 
 const app = express();
 
@@ -19,6 +20,7 @@ require('./config/config-passport');
 
 app.use('/api/contacts', contactsRouter);
 app.use('/api/users', usersRouter);
+// app.use('/api/upload', multerRouter);
 
 app.use((_, res, __) => {
   res.status(404).json({

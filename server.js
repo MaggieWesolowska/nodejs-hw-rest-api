@@ -2,7 +2,7 @@ const app = require('./app');
 const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const createFolderIfNotExist = require('./config/config-multer');
+const createFolderIfNotExist = require('./helpers/multer');
 mongoose.Promise = global.Promise;
 
 const uploadDir = path.join(process.cwd(), 'uploads');
