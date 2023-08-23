@@ -1,14 +1,11 @@
-// const express = require('express');
-// const router = express.Router();
-// const upload = require('../../config/config-multer.js');
-// const multerController = require('../../controllers/multer');
+const express = require('express');
+const router = express.Router();
+const upload = require('../../config/config-multer.js');
+const uploadAvatar = require('../../controllers/multer');
 
-// router.post(
-//   '/upload',
-//   multerController(
-//     upload.single('picture'),
-//     multerController.uploadAvatar
-//   )
-// );
+router.post(
+  '/upload',
+  (upload.single('picture'), uploadAvatar)
+);
 
-// module.exports = router;
+module.exports = router;
