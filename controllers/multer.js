@@ -2,18 +2,18 @@ const path = require('path');
 const fs = require('fs').promises;
 const Jimp = require('jimp');
 
-const getFilenameWithSuffix = originalname => {
-  const uniqueSuffix =
-    Date.now() + '-' + Math.round(Math.random() * 1e3);
-  return uniqueSuffix + '-' + originalname;
-};
-
 const tmpDir = path.join(process.cwd(), 'public/tmp');
 const avatarsPublicPath = 'public/avatars';
 const avatarsDir = path.join(
   process.cwd(),
   avatarsPublicPath
 );
+
+const getFilenameWithSuffix = originalname => {
+  const uniqueSuffix =
+    Date.now() + '-' + Math.round(Math.random() * 1e3);
+  return uniqueSuffix + '-' + originalname;
+};
 
 const uploadAvatar = async (req, res, next) => {
   const { description } = req.body;
@@ -25,7 +25,6 @@ const uploadAvatar = async (req, res, next) => {
   } = req.file;
 
   const fileName = path.join(tmpDir, filename);
-
   try {
     if (
       mimetype === 'image/png' ||
@@ -37,6 +36,7 @@ const uploadAvatar = async (req, res, next) => {
     await fs.unlink(tempPathName);
     console.log(err);
   }
+
   const avatarName = getFilenameWithSuffix(originalname);
   try {
     Jimp.read(fileName, function (err, test) {
@@ -49,24 +49,25 @@ const uploadAvatar = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+
   try {
     await fs.unlink(path.join(fileName));
   } catch (err) {
     next(err);
   }
+
   const avatarURL =
     req.get('host') +
     '/' +
     avatarsPublicPath +
     '/' +
     avatarName;
-  console.log(avatarURL);
   // const { email } = req.user;
-  // console.log(req.user);
-  user.save();
+  // user.save();
   res.json({
     description,
     data: {
+      message: 'File uploaded successfully',
       avatarURL: avatarURL,
     },
     status: 200,
