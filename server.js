@@ -7,8 +7,11 @@ require('dotenv').config();
 
 const createFolderIfNotExist = require('./helpers/multer');
 
-const uploadDir = path.join(process.cwd(), 'uploads');
-const storeImage = path.join(process.cwd(), 'images');
+const uploadDir = path.join(process.cwd(), 'public/tmp');
+const storeImage = path.join(
+  process.cwd(),
+  'public/avatars'
+);
 
 const PORT = process.env.PORT || 3000;
 const uriDb = process.env.DB_HOST;
