@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../../controllers/users');
 const auth = require('../../middleware/validateAuth');
+const validateUpload = require('../../middleware/validateUpload');
+const uploadAvatar = require('../../controllers/multer');
 
 router.get('/', authController.listUsers);
 router.post('/signup', authController.signup);
@@ -14,5 +16,7 @@ router.patch(
   auth,
   authController.updateSub
 );
+
+router.patch('/avatars', validateUpload, uploadAvatar);
 
 module.exports = router;

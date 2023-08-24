@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs').promises;
 
+const storeImage = path.join(process.cwd(), 'images');
+
 const uploadAvatar = async (req, res, next) => {
   const { description } = req.body;
   const {
@@ -12,11 +14,11 @@ const uploadAvatar = async (req, res, next) => {
   const fileName = path.join(storeImage, filename);
 
   try {
-    if (
-      mimetype === 'image/png' ||
-      mimetype === 'image/jpeg'
-    ) {
-    }
+    // if (
+    //   mimetype === 'image/png' ||
+    //   mimetype === 'image/jpg'
+    // ) {
+    // }
     await fs.rename(tempPathName, fileName);
   } catch (err) {
     await fs.unlink(tempPathName);
