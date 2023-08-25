@@ -66,12 +66,13 @@ const uploadAvatar = async (req, res, next) => {
     await fs.rename(tempPathName, fileName);
   } catch (err) {
     await fs.unlink(tempPathName);
-    console.log(err);
+    console.error(err);
   }
   const avatarName = getFilenameWithSuffix(originalname);
 
   resizeAvatar(fileName, avatarName);
   removeTmpFile(fileName);
+
   const avatarURL = await updateAvatar(
     req,
     res,
