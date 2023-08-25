@@ -17,6 +17,11 @@ router.patch(
   authController.updateSub
 );
 
-router.patch('/avatars', validateUpload, uploadAvatar);
+router.patch(
+  '/avatars',
+  auth,
+  validateUpload,
+  uploadAvatar
+);
 
 module.exports = router;

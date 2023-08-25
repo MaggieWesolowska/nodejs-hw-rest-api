@@ -1,5 +1,5 @@
 const upload = require('../config/config-multer');
 
-const validateUpload = upload.single('picture');
+const validateUpload = upload.single('avatar');
 
 module.exports = validateUpload;
