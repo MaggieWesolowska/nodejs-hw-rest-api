@@ -3,7 +3,6 @@ const User = require('../models/user');
 const gravatar = require('gravatar');
 
 require('dotenv').config();
-
 const secret = process.env.SECRET;
 
 const listUsers = async (req, res) => {
