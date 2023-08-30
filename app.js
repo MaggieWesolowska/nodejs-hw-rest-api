@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 
 const contactsRouter = require('./routes/api/contacts');
@@ -8,6 +9,23 @@ const usersRouter = require('./routes/api/users');
 
 const app = express();
 app.use(express.static('public'));
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const msg = {
+  to: 'email', // Change to your recipient
+  from: 'maggiewes07@gmail.com', // Change to your verified sender
+  subject: `Your verification email from ${name}`,
+  text: 'sending an email is easy to do anywhere, even with Node.js',
+  html: '<strong>sending an email is easy to do anywhere, even with Node.js</strong>',
+};
+sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent');
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 const formatsLogger =
   app.get('env') === 'development' ? 'dev' : 'short';
