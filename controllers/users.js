@@ -133,7 +133,7 @@ const current = (req, res, next) => {
   }
 };
 
-const updateSub = async (req, res) => {
+const updateSub = async (req, res, _) => {
   try {
     const { _id } = req.user;
     const { subscription } = req.body;
