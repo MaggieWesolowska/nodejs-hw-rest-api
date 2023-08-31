@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-const sgMail = require('@sendgrid/mail');
+
 const path = require('path');
 require('dotenv').config();
 
@@ -16,22 +16,6 @@ app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const msg = {
-  to: 'email', // Change to your recipient
-  from: 'maggiewes07@gmail.com', // Change to your verified sender
-  subject: `Your verification email :)`,
-  text: 'Please click to verify your email',
-};
-sgMail
-  .send(msg)
-  .then(() => {
-    console.log('Email sent');
-  })
-  .catch(error => {
-    console.error(error);
-  });
 
 const formatsLogger =
   app.get('env') === 'development' ? 'dev' : 'short';

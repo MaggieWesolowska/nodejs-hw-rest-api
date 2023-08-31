@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const gravatar = require('gravatar');
+const { nanoid } = require('nanoid');
+const sendEmail = require('../helpers/mailer');
 
 require('dotenv').config();
 const secret = process.env.SECRET;
@@ -27,10 +29,19 @@ const signup = async (req, res, next) => {
   }
   try {
     const newUser = new User({ email });
+    const verificationToken = nanoid();
 
     newUser.setPassword(password);
     newUser.avatarURL = gravatar.url(email).slice(2);
+    newUser.verificationToken = verificationToken;
     const result = await newUser.save();
+    const verificationLink = `${req.protocol}://${req.get(
+      'host'
+    )}/api/users/verify/${verificationToken}`;
+    sendEmail({
+      to: newUser.email,
+      link: verificationLink,
+    });
     res.status(201).json({
       status: 'Success',
       code: 201,
