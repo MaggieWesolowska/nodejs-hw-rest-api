@@ -4,7 +4,10 @@ const authController = require('../../controllers/users');
 const auth = require('../../middleware/validateAuth');
 const validateUpload = require('../../middleware/validateUpload');
 const uploadAvatar = require('../../controllers/multer');
-const verifyEmail = require('../../controllers/email');
+const {
+  verifyEmail,
+  resendVerification,
+} = require('../../controllers/email');
 
 router.get('/', authController.listUsers);
 router.post('/signup', authController.signup);
@@ -26,5 +29,7 @@ router.patch(
 );
 
 router.get('/verify/:verificationToken', verifyEmail);
+
+router.post('/verify', resendVerification);
 
 module.exports = router;
