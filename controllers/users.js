@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const gravatar = require('gravatar');
+const { nanoid } = require('nanoid');
+const sendEmail = require('../helpers/mailer');
 
 require('dotenv').config();
 const secret = process.env.SECRET;
@@ -18,7 +20,7 @@ const signup = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    return res.status(409).json({
+    return res.json({
       status: 'Error',
       code: 409,
       message: 'Email is already in use',
@@ -27,10 +29,19 @@ const signup = async (req, res, next) => {
   }
   try {
     const newUser = new User({ email });
+    const verificationToken = nanoid();
 
     newUser.setPassword(password);
     newUser.avatarURL = gravatar.url(email).slice(2);
+    newUser.verificationToken = verificationToken;
     const result = await newUser.save();
+    const verificationLink = `${req.protocol}://${req.get(
+      'host'
+    )}/api/users/verify/${verificationToken}`;
+    sendEmail({
+      to: newUser.email,
+      link: verificationLink,
+    });
     res.status(201).json({
       status: 'Success',
       code: 201,
@@ -56,6 +67,13 @@ const login = async (req, res, next) => {
       code: 400,
       message: 'Incorrect email or password',
       data: 'Bad request',
+    });
+  }
+  if (!user.verify) {
+    return res.status(400).json({
+      status: 'Error',
+      code: 400,
+      message: 'User not verified!',
     });
   }
   try {
@@ -115,9 +133,7 @@ const current = (req, res, next) => {
   }
 };
 
-//PATH: users/{_id}/subscription
-
-const updateSub = async (req, res, next) => {
+const updateSub = async (req, res, _) => {
   try {
     const { _id } = req.user;
     const { subscription } = req.body;
